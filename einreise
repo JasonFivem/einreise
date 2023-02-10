@@ -1,0 +1,20 @@
+-- Script: ESX_MLO_ENTRY_SYSTEM
+
+-- General
+ESX = nil
+
+TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
+
+-- ESX MLO Entry System
+RegisterServerEvent('esx_mloentry:checkForEntry')
+AddEventHandler('esx_mloentry:checkForEntry', function()
+    local _source = source
+    local xPlayer = ESX.GetPlayerFromId(_source)
+    local playerGroup = xPlayer.getGroup()
+
+    if playerGroup == 'guest' then
+        TriggerClientEvent('esx_mloentry:accessDenied', _source)
+    else
+        TriggerEvent('esx_mloentry:grantAccess', _source)
+    end
+end)
